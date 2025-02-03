@@ -1,8 +1,10 @@
 defmodule TaskTrackerWeb.Router do
   use TaskTrackerWeb, :router
+  alias TaskTrackerWeb.Plugs.FetchUserPlug
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug FetchUserPlug
   end
 
   scope "/api", TaskTrackerWeb do
@@ -16,7 +18,7 @@ defmodule TaskTrackerWeb.Router do
 
     forward "/graphiql", Absinthe.Plug.GraphiQL,
       schema: TaskTrackerWeb.Schema,
-      interface: :simple,
+      interface: :playground,
       context: %{pubsub: TaskTrackerWeb.Endpoint}
-    end
   end
+end

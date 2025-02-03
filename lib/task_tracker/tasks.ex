@@ -24,7 +24,7 @@ defmodule TaskTracker.Tasks do
   @doc """
   Returns paginated tasks.
   """
-  
+
   def paginate_tasks(pagination \\ %{}) do
     repo_pagination =
       pagination
@@ -35,7 +35,7 @@ defmodule TaskTracker.Tasks do
     Repo.paginate(Task, repo_pagination)
   end
 
-   @doc """
+  @doc """
   Gets a single task.
 
   ## Examples

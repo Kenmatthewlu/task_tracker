@@ -11,9 +11,29 @@
 # and so on) as they will fail if something goes wrong.
 
 alias TaskTracker.Tasks.Task
+alias TaskTracker.Accounts.User
 alias TaskTracker.Repo
 
 due_date = DateTime.utc_now() |> DateTime.truncate(:second)
 
-%Task{id: 1, title: "Task 1", description: "Task # 1", due_date: due_date, completion_status: :completed} |> Repo.insert! 
-%Task{id: 2, title: "Task 2", description: "Task # 2", due_date: due_date, completion_status: :not_completed} |> Repo.insert!
+%User{email: "dev@test.com"} |> Repo.insert!()
+
+user_id = TaskTracker.Accounts.list_users() |> List.first() |> Map.get(:id)
+
+%Task{
+  title: "Task 1",
+  description: "Task # 1",
+  due_date: due_date,
+  completion_status: :completed,
+  user_id: user_id
+}
+|> Repo.insert!()
+
+%Task{
+  title: "Task 2",
+  description: "Task # 2",
+  due_date: due_date,
+  completion_status: :not_completed,
+  user_id: user_id
+}
+|> Repo.insert!()

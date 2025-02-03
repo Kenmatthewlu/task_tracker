@@ -21,7 +21,12 @@ defmodule TaskTracker.TasksTest do
     end
 
     test "create_task/1 with valid data creates a task" do
-      valid_attrs = %{completion_status: "some completion_status", description: "some description", title: "some title", due_date: ~U[2025-02-02 02:46:00Z]}
+      valid_attrs = %{
+        completion_status: "some completion_status",
+        description: "some description",
+        title: "some title",
+        due_date: ~U[2025-02-02 02:46:00Z]
+      }
 
       assert {:ok, %Task{} = task} = Tasks.create_task(valid_attrs)
       assert task.completion_status == "some completion_status"
@@ -36,7 +41,13 @@ defmodule TaskTracker.TasksTest do
 
     test "update_task/2 with valid data updates the task" do
       task = task_fixture()
-      update_attrs = %{completion_status: "some updated completion_status", description: "some updated description", title: "some updated title", due_date: ~U[2025-02-03 02:46:00Z]}
+
+      update_attrs = %{
+        completion_status: "some updated completion_status",
+        description: "some updated description",
+        title: "some updated title",
+        due_date: ~U[2025-02-03 02:46:00Z]
+      }
 
       assert {:ok, %Task{} = task} = Tasks.update_task(task, update_attrs)
       assert task.completion_status == "some updated completion_status"

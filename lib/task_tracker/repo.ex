@@ -3,5 +3,5 @@ defmodule TaskTracker.Repo do
     otp_app: :task_tracker,
     adapter: Ecto.Adapters.Postgres
 
-    use Paginator
+  use Paginator
 end
