@@ -6,6 +6,11 @@ defmodule TaskTrackerWeb.TaskResolver do
       {:ok, Tasks.list_tasks()}
     end
 
+    def paginate_tasks(_root, args, _info) do
+        pagination = Map.get(args, :pagination, %{})
+        {:ok, Tasks.paginate_tasks(pagination)}
+    end
+
     def find_task(_root, args, _info) do
       case Tasks.get_task(args.id) do
         %Task{} = task -> {:ok, task}

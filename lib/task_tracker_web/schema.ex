@@ -6,6 +6,13 @@ defmodule TaskTrackerWeb.Schema do
     import_types TaskTrackerWeb.Types.TaskTypes
   
     query do
+        @desc "Paginate tasks"
+        field :paginate_tasks, :task_pagination do
+          arg :pagination, non_null(:pagination_input)
+
+          resolve(&TaskResolver.paginate_tasks/3)
+        end
+
       @desc "Get all tasks"
       field :all_tasks, non_null(list_of(non_null(:task))) do
         resolve(&TaskResolver.all_tasks/3)

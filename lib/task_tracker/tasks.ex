@@ -21,6 +21,20 @@ defmodule TaskTracker.Tasks do
     Repo.all(Task)
   end
 
+  @doc """
+  Returns paginated tasks.
+  """
+  
+  def paginate_tasks(pagination \\ %{}) do
+    repo_pagination =
+      pagination
+      |> Enum.into(Keyword.new())
+      |> Keyword.put_new(:limit, 20)
+      |> Keyword.put(:cursor_fields, [:inserted_at, :id])
+
+    Repo.paginate(Task, repo_pagination)
+  end
+
    @doc """
   Gets a single task.
 

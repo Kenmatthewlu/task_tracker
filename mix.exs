@@ -47,7 +47,8 @@ defmodule TaskTracker.MixProject do
       {:bandit, "~> 1.5"},
       {:absinthe, "~> 1.7.8"},
       {:absinthe_plug, "~> 1.5"},
-      {:paginator, "~> 1.2.0"}
+      {:paginator, "~> 1.2.0"},
+      {:plug_crypto, "~> 1.2.0"}
     ]
   end
 
