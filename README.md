@@ -1,13 +1,13 @@
 # TaskTracker
 
 Summary:
- Auth - auth bearer token authentication
- Pagination - Paginator
+ - Auth - auth bearer token authentication
+ - Pagination - Paginator
  
  Features included:
-  Task - [paginate, search, list, view, create, update, delete]
-  User - [list, create]
-  UserToken - [login, logout]
+ - Task - [paginate, search, list, view, create, update, delete]
+ - User - [list, create]
+ - UserToken - [login, logout]
 
 Setup:
 
