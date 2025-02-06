@@ -1,5 +1,11 @@
 # TaskTracker
 
+Setup:
+
+Make sure you have:
+- elixir 1.18.2
+- erlang 27.0.1
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
