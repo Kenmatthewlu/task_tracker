@@ -12,6 +12,10 @@ defmodule TaskTrackerWeb.TaskResolver do
     {:ok, Tasks.paginate_tasks(pagination)}
   end
 
+  def search_tasks(_root, args, _info) do
+    {:ok, Tasks.search_tasks(args)}
+  end
+
   def find_task(_root, args, _info) do
     case Tasks.get_task(args.id) do
       %Task{} = task -> {:ok, task}
@@ -19,7 +23,7 @@ defmodule TaskTrackerWeb.TaskResolver do
     end
   end
 
-  def create_task(root, args, %{context: %{current_user: %User{} = user}}) do
+  def create_task(_root, args, %{context: %{current_user: %User{} = user}}) do
     args = Map.put(args, :user_id, user.id)
 
     case Tasks.create_task(args) do
@@ -36,7 +40,6 @@ defmodule TaskTrackerWeb.TaskResolver do
   end
 
   def update_task(_root, args, _info) do
-    # TODO: catch error for non existent task, and wrong params
     %{id: id} = args
 
     with %Task{} = task <- Tasks.get_task(id),
@@ -46,8 +49,7 @@ defmodule TaskTrackerWeb.TaskResolver do
       nil ->
         {:error, "task with id #{id} does not exist in the system"}
 
-      {:error, error} ->
-        IO.inspect(error)
+      {:error, _error} ->
         {:error, "failed to update"}
     end
   end

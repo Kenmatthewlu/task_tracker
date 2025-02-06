@@ -10,8 +10,8 @@ defmodule TaskTrackerWeb.Middleware.AuthorizeResource do
     auth_type = config[:type] || :owner
     auth_fn = config[:auth_fn] || (&authorize/3)
 
-    resource = Map.get(context, resource_key) |> IO.inspect()
-    user = Map.get(context, :current_user) |> IO.inspect()
+    resource = Map.get(context, resource_key)
+    user = Map.get(context, :current_user)
 
     if run_auth(auth_fn, user, resource, auth_type) do
       resolution

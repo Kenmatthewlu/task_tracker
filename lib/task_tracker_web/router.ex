@@ -7,7 +7,7 @@ defmodule TaskTrackerWeb.Router do
     plug FetchUserPlug
   end
 
-  scope "/api", TaskTrackerWeb do
+  scope "/api" do
     pipe_through :api
 
     forward "/", Absinthe.Plug, schema: TaskTrackerWeb.Schema

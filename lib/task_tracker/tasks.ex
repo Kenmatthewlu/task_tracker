@@ -36,6 +36,21 @@ defmodule TaskTracker.Tasks do
   end
 
   @doc """
+  Returns a list of filtered tasks.
+
+  ## Examples
+
+      iex> list_tasks()
+      [%Task{}, ...]
+
+  """
+  def search_tasks(params \\ %{}) do
+    Task
+    |> query_by(params)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single task.
 
   ## Examples
@@ -129,4 +144,38 @@ defmodule TaskTracker.Tasks do
   def change_task(%Task{} = task, attrs \\ %{}) do
     Task.changeset(task, attrs)
   end
+
+  defp query_by(query, %{q: search_query} = params) do
+    query =
+      from q in query,
+        where: ilike(q.title, ^"%#{search_query}%") or ilike(q.description, ^"%#{search_query}%")
+
+    query_by(query, Map.delete(params, :q))
+  end
+
+  defp query_by(query, %{ids: ids} = params) do
+    query =
+      from q in query,
+        where: q.id in ^ids
+
+    query_by(query, Map.delete(params, :ids))
+  end
+
+  defp query_by(query, %{due_before: datetime} = params) do
+    query =
+      from q in query,
+        where: q.due_date < ^datetime
+
+    query_by(query, Map.delete(params, :due_before))
+  end
+
+  defp query_by(query, %{completion_status: completion_status} = params) do
+    query =
+      from q in query,
+        where: q.completion_status == ^completion_status
+
+    query_by(query, Map.delete(params, :completion_status))
+  end
+
+  defp query_by(query, _params), do: query
 end

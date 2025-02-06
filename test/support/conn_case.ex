@@ -28,6 +28,8 @@ defmodule TaskTrackerWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import TaskTrackerWeb.ConnCase
+      import TaskTracker.TasksFixtures
+      import TaskTracker.AccountsFixtures
     end
   end
 

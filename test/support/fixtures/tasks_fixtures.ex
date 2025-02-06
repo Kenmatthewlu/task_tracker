@@ -11,7 +11,7 @@ defmodule TaskTracker.TasksFixtures do
     {:ok, task} =
       attrs
       |> Enum.into(%{
-        completion_status: "some completion_status",
+        completion_status: "not_completed",
         description: "some description",
         due_date: ~U[2025-02-02 02:46:00Z],
         title: "some title"
