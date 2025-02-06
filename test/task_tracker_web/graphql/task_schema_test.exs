@@ -11,19 +11,14 @@ defmodule TaskTrackerWeb.Graphql.TaskSchemaTest do
   """
 
   describe "all_tasks" do
-    setup do
-      user = user_fixture()
+    test "List all tasks", %{conn: conn} do
+      user = user_fixture(%{email: "dev@mail.com"})
       task_fixture(%{user_id: user.id})
       task_fixture(%{user_id: user.id})
       task_fixture(%{user_id: user.id})
 
-      {:ok, %{user: user}}
-    end
-
-    test "List all tasks", %{conn: conn, user: user} do
       conn =
         conn
-        |> put_req_header("authorization", "Bearer #{user.id}")
         |> post("/api", %{
           "query" => @all_tasks_query
         })
@@ -211,14 +206,15 @@ defmodule TaskTrackerWeb.Graphql.TaskSchemaTest do
   describe "create_task" do
     setup do
       user = user_fixture()
+      user_token = generate_user_token(user.id)
 
-      {:ok, %{user: user}}
+      {:ok, %{user: user, user_token: user_token}}
     end
 
-    test "create a task with valid data", %{conn: conn, user: user} do
+    test "create a task with valid data", %{conn: conn, user: user, user_token: user_token} do
       conn =
         conn
-        |> put_req_header("authorization", "Bearer #{user.id}")
+        |> put_req_header("authorization", "Bearer #{user_token.token}")
         |> post("/api", %{
           "query" => @create_task_query,
           "variables" => @valid_create_attrs
@@ -231,10 +227,10 @@ defmodule TaskTrackerWeb.Graphql.TaskSchemaTest do
       assert task["due_date"] == @valid_create_attrs.due_date
     end
 
-    test "create a task with invalid data", %{conn: conn, user: user} do
+    test "create a task with invalid data", %{conn: conn, user_token: user_token} do
       conn =
         conn
-        |> put_req_header("authorization", "Bearer #{user.id}")
+        |> put_req_header("authorization", "Bearer #{user_token.token}")
         |> post("/api", %{
           "query" => @create_task_query,
           "variables" => @invalid_create_attrs
@@ -302,15 +298,21 @@ defmodule TaskTrackerWeb.Graphql.TaskSchemaTest do
   describe "update_task" do
     setup do
       user = user_fixture()
+      user_token = generate_user_token(user.id)
       task = task_fixture(%{user_id: user.id})
 
-      {:ok, %{user: user, task: task}}
+      {:ok, %{user: user, task: task, user_token: user_token}}
     end
 
-    test "update a task with valid data", %{conn: conn, user: user, task: task} do
+    test "update a task with valid data", %{
+      conn: conn,
+      user: user,
+      task: task,
+      user_token: user_token
+    } do
       conn =
         conn
-        |> put_req_header("authorization", "Bearer #{user.id}")
+        |> put_req_header("authorization", "Bearer #{user_token.token}")
         |> post("/api", %{
           "query" => @update_task_query,
           "variables" => @valid_update_attrs |> Map.put("id", task.id)
@@ -337,7 +339,7 @@ defmodule TaskTrackerWeb.Graphql.TaskSchemaTest do
     end
 
     test "update a task with valid data but with a different user", %{conn: conn, task: task} do
-      diff_user = user_fixture()
+      diff_user = user_fixture(%{email: "new_email@email.com"})
 
       conn =
         conn
@@ -379,15 +381,16 @@ defmodule TaskTrackerWeb.Graphql.TaskSchemaTest do
   describe "delete_task" do
     setup do
       user = user_fixture()
+      user_token = generate_user_token(user.id)
       task = task_fixture(%{user_id: user.id})
 
-      {:ok, %{user: user, task: task}}
+      {:ok, %{user: user, task: task, user_token: user_token}}
     end
 
-    test "delete an existing task", %{conn: conn, user: user, task: task} do
+    test "delete an existing task", %{conn: conn, user: user, task: task, user_token: user_token} do
       conn =
         conn
-        |> put_req_header("authorization", "Bearer #{user.id}")
+        |> put_req_header("authorization", "Bearer #{user_token.token}")
         |> post("/api", %{
           "query" => @delete_task_query,
           "variables" => %{id: task.id}
@@ -397,10 +400,10 @@ defmodule TaskTrackerWeb.Graphql.TaskSchemaTest do
       assert deleted_task["id"] == Integer.to_string(task.id)
     end
 
-    test "delete a non-existing task", %{conn: conn, user: user} do
+    test "delete a non-existing task", %{conn: conn, user: user, user_token: user_token} do
       conn =
         conn
-        |> put_req_header("authorization", "Bearer #{user.id}")
+        |> put_req_header("authorization", "Bearer #{user_token.token}")
         |> post("/api", %{
           "query" => @delete_task_query,
           "variables" => %{id: -1}
@@ -411,11 +414,12 @@ defmodule TaskTrackerWeb.Graphql.TaskSchemaTest do
     end
 
     test "delete an existing task with a different user", %{conn: conn, task: task} do
-      diff_user = user_fixture()
+      diff_user = user_fixture(%{email: "diff_user@email.com"})
+      diff_token = generate_user_token(diff_user.id)
 
       conn =
         conn
-        |> put_req_header("authorization", "Bearer #{diff_user.id}")
+        |> put_req_header("authorization", "Bearer #{diff_token.token}")
         |> post("/api", %{
           "query" => @delete_task_query,
           "variables" => %{id: task.id}

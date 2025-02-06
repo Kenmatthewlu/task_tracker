@@ -1,6 +1,6 @@
 defmodule TaskTrackerWeb.Schemas.UserTypes do
   use Absinthe.Schema.Notation
-  alias TaskTrackerWeb.UserResolver
+  alias TaskTrackerWeb.Resolvers.UserResolver
 
   import_types(TaskTrackerWeb.Types.UserTypes)
 

@@ -148,7 +148,7 @@ defmodule TaskTracker.Tasks do
   defp query_by(query, %{q: search_query} = params) do
     query =
       from q in query,
-        where: ilike(q.title, ^"%#{search_query}%") or ilike(q.description, ^"%#{search_query}%")
+        where: like(q.title, ^"%#{search_query}%") or like(q.description, ^"%#{search_query}%")
 
     query_by(query, Map.delete(params, :q))
   end

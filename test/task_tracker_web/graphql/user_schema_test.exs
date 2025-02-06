@@ -11,8 +11,8 @@ defmodule TaskTrackerWeb.Graphql.UserSchemaTest do
 
   describe "all_users" do
     test "List all users", %{conn: conn} do
-      for _ <- 1..3 do
-        user_fixture()
+      for number <- 1..3 do
+        user_fixture(%{email: "dev#{number}@test.com"})
       end
 
       conn =

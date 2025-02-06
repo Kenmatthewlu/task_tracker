@@ -35,7 +35,7 @@ defmodule TaskTracker.MixProject do
       {:phoenix, "~> 1.7.19"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
-      {:postgrex, ">= 0.0.0"},
+      {:myxql, ">= 0.0.0"},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
@@ -48,7 +48,9 @@ defmodule TaskTracker.MixProject do
       {:absinthe, "~> 1.7.8"},
       {:absinthe_plug, "~> 1.5"},
       {:paginator, "~> 1.2.0"},
-      {:plug_crypto, "~> 1.2.0"}
+      {:plug_crypto, "~> 1.2.0"},
+      {:phoenix_pubsub, "~> 2.0"},
+      {:absinthe_phoenix, "~> 2.0.2"}
     ]
   end
 

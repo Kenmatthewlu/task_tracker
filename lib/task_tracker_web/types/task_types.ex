@@ -1,9 +1,6 @@
 defmodule TaskTrackerWeb.Types.TaskTypes do
   use Absinthe.Schema.Notation
 
-  import_types(Absinthe.Type.Custom)
-  import_types(TaskTrackerWeb.Types.PaginationTypes)
-
   enum :completion_status_type do
     value(:completed)
     value(:not_completed)

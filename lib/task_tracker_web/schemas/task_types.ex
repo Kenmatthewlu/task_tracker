@@ -1,7 +1,7 @@
 defmodule TaskTrackerWeb.Schemas.TaskTypes do
   use Absinthe.Schema.Notation
   alias TaskTracker.Tasks
-  alias TaskTrackerWeb.TaskResolver
+  alias TaskTrackerWeb.Resolvers.TaskResolver
   alias TaskTrackerWeb.Middleware.{Authenticated, Loader, AuthorizeResource}
 
   import_types(TaskTrackerWeb.Types.TaskTypes)

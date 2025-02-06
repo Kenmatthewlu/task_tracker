@@ -10,7 +10,10 @@ defmodule TaskTrackerWeb.Router do
   scope "/api" do
     pipe_through :api
 
-    forward "/", Absinthe.Plug, schema: TaskTrackerWeb.Schema
+    forward "/", Absinthe.Plug,
+      schema: TaskTrackerWeb.Schema,
+      socket: TaskTrackerWeb.UserSocket,
+      socket_url: "ws://localhost:4000/api/graphql"
   end
 
   scope "/" do
@@ -19,6 +22,8 @@ defmodule TaskTrackerWeb.Router do
     forward "/graphiql", Absinthe.Plug.GraphiQL,
       schema: TaskTrackerWeb.Schema,
       interface: :playground,
-      context: %{pubsub: TaskTrackerWeb.Endpoint}
+      context: %{pubsub: TaskTrackerWeb.Endpoint},
+      socket: TaskTrackerWeb.UserSocket,
+      socket_url: "ws://localhost:4000/api/graphql"
   end
 end

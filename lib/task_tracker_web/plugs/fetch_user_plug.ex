@@ -7,9 +7,9 @@ defmodule TaskTrackerWeb.Plugs.FetchUserPlug do
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    with ["Bearer " <> user_id] <- get_req_header(conn, "authorization"),
-         %Accounts.User{} = user <- Accounts.get_user!(user_id) do
-      Absinthe.Plug.assign_context(conn, :current_user, user)
+    with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
+         %Accounts.User{} = user <- Accounts.get_user_by_session_token(token) do
+      Absinthe.Plug.assign_context(conn, %{current_user: user, token: token})
     else
       _ ->
         conn

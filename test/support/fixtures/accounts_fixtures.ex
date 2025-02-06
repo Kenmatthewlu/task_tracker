@@ -1,4 +1,6 @@
 defmodule TaskTracker.AccountsFixtures do
+  alias TaskTracker.Accounts
+
   @moduledoc """
   This module defines test helpers for creating
   entities via the `TaskTracker.Accounts` context.
@@ -13,8 +15,14 @@ defmodule TaskTracker.AccountsFixtures do
       |> Enum.into(%{
         email: "some email"
       })
-      |> TaskTracker.Accounts.create_user()
+      |> Accounts.create_user()
 
     user
+  end
+
+  def generate_user_token(user_id) do
+    user_id
+    |> Accounts.get_user!()
+    |> Accounts.generate_user_session_token()
   end
 end

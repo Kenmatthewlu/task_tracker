@@ -1,4 +1,4 @@
-defmodule TaskTrackerWeb.UserResolver do
+defmodule TaskTrackerWeb.Resolvers.UserResolver do
   alias TaskTracker.Accounts
 
   def all_users(_root, _args, _info) do

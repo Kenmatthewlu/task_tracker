@@ -1,4 +1,4 @@
-defmodule TaskTrackerWeb.TaskResolver do
+defmodule TaskTrackerWeb.Resolvers.TaskResolver do
   alias TaskTracker.Tasks
   alias TaskTracker.Tasks.Task
   alias TaskTracker.Accounts.User
